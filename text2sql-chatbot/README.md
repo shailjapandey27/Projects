@@ -10,25 +10,30 @@ Question → LLM (Groq) → SQL → SQLite (read-only) → Answer
 - Safety check: only `SELECT` queries are allowed (DROP, DELETE, UPDATE, INSERT and similar are blocked)
 - Database opened in read-only mode as a second safety layer
 - Shows the generated SQL, the raw result and a plain-English answer
-- Lightweight: the core engine uses only Python's standard library (`sqlite3`, `urllib`)
-- Web UI with Streamlit, plus a dependency-free backup UI (`server.py`)
+- Lightweight: built with Python's standard library (`sqlite3`, `urllib`, `http.server`)
+- Simple web interface that runs locally (`server.py`)
 
 ## Tech stack
-Python, SQLite, Groq API (gpt-oss-120b), python-dotenv, Streamlit
+Python, SQLite, Groq API (gpt-oss-120b), python-dotenv
 
 ## Project structure
 ```
 text2sql-chatbot/
 ├── Create_database.py   # creates the sample shop.db database
 ├── engine.py            # question -> SQL -> result -> answer
-├── ui.py                # Streamlit web UI
-├── server.py            # backup web UI (standard library only)
+├── server.py            # web interface (standard library only)
+├── shop.db              # sample database
 ├── requirements.txt
+├── output.png           # demo screenshot
 └── README.md
 ```
 
 ## Setup
-1. Clone the repo and open the `text2sql-chatbot` folder
+1. Clone the repository and open the project folder:
+   ```bash
+   git clone https://github.com/shailjapandey27/Projects.git
+   cd Projects/text2sql-chatbot
+   ```
 2. Create and activate a virtual environment:
    ```bash
    python -m venv venv
@@ -42,7 +47,7 @@ text2sql-chatbot/
    ```
    GROQ_API_KEY=your_key_here
    ```
-5. Create the sample database (run once):
+5. (Optional) Recreate the sample database. A ready-made `shop.db` is already included:
    ```bash
    python Create_database.py
    ```
@@ -52,17 +57,11 @@ Terminal version:
 ```bash
 python engine.py
 ```
-Web UI (Streamlit):
-```bash
-python -m streamlit run ui.py
-```
-Web UI (no extra packages), then open http://localhost:8000:
+
+Web interface, then open http://localhost:8000:
 ```bash
 python server.py
 ```
-Web interface (no extra packages), then open http://localhost:8000:
-```bash
-
 
 ## Example questions
 - Which customer spent the most?
